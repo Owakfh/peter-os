@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
-<title>PETER OS 3.0 — Forced Cache Purge Edition</title>
+<title>PETER OS — Global Live Cloud Edition</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,300..700;1,300..700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
   
@@ -46,7 +46,7 @@
     }
   }
 
-  /* OTA ANIMATION SCREEN */
+  /* SYSTEM FLASHING & OTA SCREEN */
   .ota-update-screen {
     position: absolute; inset: 0; background: #000; z-index: 700;
     display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center;
@@ -82,7 +82,7 @@
   }
   @keyframes bounceUp { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-5px);} }
 
-  /* STATUS BAR & NOTCH */
+  /* NOTCH & STATUS BAR */
   .phone-notch-area {
     position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
     width: 100px; height: 24px; background: #000; border-radius: 99px; z-index: 100;
@@ -214,24 +214,22 @@
     <div>
       <div class="os-header">
         <h1 id="osCoreHeaderTitle">PETER OS</h1>
-        <p id="osVersionSubtitle">PETER OS 3.0 • Ready to Update</p>
+        <p id="osVersionSubtitle">PETER OS 3.0 • Cloud Sync Ready</p>
       </div>
 
       <div class="os-widget">
         <div class="widget-left">
           <div class="widget-icon" id="widgetStatusIcon">🚀</div>
           <div class="widget-info">
-            <b id="widgetTitle">System Core 3.0 Ready</b>
-            <span id="widgetDesc">មានកំណែអាប់ដេត PETER OS 3.0 ថ្មី!</span>
+            <b id="widgetTitle">PETER OS 3.0 Ready</b>
+            <span id="widgetDesc">ចុចអាប់ដេតដើម្បីដំឡើង PETER OS 3.0</span>
           </div>
         </div>
         <button class="widget-action" id="widgetActionButton" onclick="openApp('Settings')">អាប់ដេតឥឡូវ</button>
       </div>
 
       <div class="app-section-title">កម្មវិធីប្រព័ន្ធ</div>
-      <div class="app-grid" id="appGridContainer">
-        <!-- Apps injected live -->
-      </div>
+      <div class="app-grid" id="appGridContainer"></div>
     </div>
 
     <div style="text-align: center; font-size: 9px; color: var(--muted); padding-bottom: 2px;">
@@ -254,25 +252,22 @@
 </div>
 
 <script>
-  /* FORCE CACHE PURGE SYSTEM FOR VERSION 3.0 RELEASE */
-  if(localStorage.getItem('installed_os_version') !== 'PETER_OS_3.0') {
-    localStorage.setItem('installed_os_version', '1.0');
-  }
+  /* GLOBAL CLOUD SYSTEM CONTROLLER */
+  const SYSTEM_LATEST_BUILD = 'PETER_OS_3.0';
 
-  const TARGET_SYSTEM_CORE = 'PETER_OS_3.0';
-  let activeKernelVersion = localStorage.getItem('installed_os_version') || '1.0';
+  let activeKernelVersion = localStorage.getItem('user_os_current_version') || '1.0';
 
   const SYSTEM_VERSIONS_DATABASE = {
     '1.0': {
       osName: 'XL OS 1.0',
-      subtitle: 'XL 1.0 OS (មានកំណែអាប់ដេតថ្មី PETER OS 3.0!)',
+      subtitle: 'XL 1.0 OS (មានកំណែអាប់ដេត PETER OS 3.0 ថ្មី!)',
       apps: ['TikTok', 'PhoneCall', 'Camera', 'Wallet', 'Settings'],
       dock: ['PhoneCall', 'Camera', 'Settings', 'Home'],
       badgeUpdateAvailable: true
     },
     'PETER_OS_3.0': {
       osName: 'PETER OS 3.0',
-      subtitle: 'PETER OS 3.0 • Advanced AI Core Engine (Up to date)',
+      subtitle: 'PETER OS 3.0 • Dynamic AI & Audio Engine (Up to date)',
       apps: ['PeterAI', 'XLfy', 'Notes', 'TikTok', 'PhoneCall', 'Camera', 'Wallet', 'Settings'],
       dock: ['PeterAI', 'Notes', 'XLfy', 'Settings', 'Home'],
       badgeUpdateAvailable: false
@@ -322,146 +317,5 @@
     dockHtml += `<div class="nav-home-indicator" onclick="openApp('Home')"></div>`;
     dock.innerHTML = dockHtml;
 
-    if (activeKernelVersion === TARGET_SYSTEM_CORE) {
-      document.getElementById('widgetTitle').textContent = "PETER OS 3.0 Core Active";
-      document.getElementById('widgetDesc').textContent = "System ដំណើរការប្រកបដោយប្រសិទ្ធភាពខ្ពស់";
-      document.getElementById('widgetStatusIcon').textContent = "⚡";
-      document.getElementById('widgetActionButton').textContent = "ប្រើ Peter AI";
-      document.getElementById('widgetActionButton').onclick = () => openApp('PeterAI');
-    } else {
-      document.getElementById('widgetTitle').textContent = "មាន PETER OS 3.0 ថ្មី!";
-      document.getElementById('widgetDesc').textContent = "ចុចទីនេះដើម្បីអាប់ដេតទៅ PETER OS 3.0";
-      document.getElementById('widgetStatusIcon').textContent = "🚀";
-      document.getElementById('widgetActionButton').textContent = "អាប់ដេតឥឡូវ";
-      document.getElementById('widgetActionButton').onclick = () => openApp('Settings');
-    }
-  }
-
-  function unlockPhone() {
-    document.getElementById('lockScreen').classList.add('unlocked');
-  }
-
-  function updateOSClock() {
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    document.getElementById('os-clock').textContent = `${hours}:${minutes}`;
-    document.getElementById('lockTime').textContent = `${hours}:${minutes}`;
-  }
-  setInterval(updateOSClock, 1000);
-  updateOSClock();
-
-  function triggerRealSystemUpdate() {
-    const otaScreen = document.getElementById('otaScreen');
-    const statusText = document.getElementById('otaStatusText');
-    const fill = document.getElementById('otaProgressFill');
-    
-    otaScreen.classList.add('active');
-    openApp('Home');
-
-    setTimeout(() => {
-      statusText.textContent = "📦 កំពុង Flashing PETER OS 3.0 System Kernel...";
-      fill.style.width = "40%";
-    }, 1500);
-
-    setTimeout(() => {
-      statusText.textContent = "⚙️ កំពុងដំឡេីង Peter AI & XLfy Music Engines...";
-      fill.style.width = "80%";
-    }, 3200);
-
-    setTimeout(() => {
-      statusText.textContent = "🔄 កំពុង Reboot ចូលប្រព័ន្ធ PETER OS 3.0...";
-      fill.style.width = "100%";
-    }, 4800);
-
-    setTimeout(() => {
-      otaScreen.classList.remove('active');
-      activeKernelVersion = 'PETER_OS_3.0';
-      localStorage.setItem('installed_os_version', 'PETER_OS_3.0');
-      bootSystemKernel();
-      alert("⚡ System Core Update Completed! ប្រព័ន្ធរបស់អ្នកត្រូវបានប្តូរទៅកាន់ PETER OS 3.0 ផ្លូវការ!");
-    }, 6500);
-  }
-
-  let notesList = JSON.parse(localStorage.getItem('xl_notes') || '["ស្វាគមន៍មកកាន់ PETER OS 3.0 Core System!"]');
-  function saveNewNote() {
-    const input = document.getElementById('noteInput');
-    if(input.value.trim() !== '') {
-      notesList.unshift(input.value);
-      localStorage.setItem('xl_notes', JSON.stringify(notesList));
-      openApp('Notes');
-    }
-  }
-
-  let chatMessages = JSON.parse(localStorage.getItem('peter_ai_chats') || '[{"sender":"bot", "text":"សួស្តី! ខ្ញុំគឺ Peter AI ដំណើរការលើ PETER OS 3.0 Core System!"}]');
-  function sendAIMessage() {
-    const input = document.getElementById('aiInputBox');
-    const txt = input.value.trim();
-    if(txt !== '') {
-      chatMessages.push({sender: 'user', text: txt});
-      input.value = '';
-      setTimeout(() => {
-        chatMessages.push({sender: 'bot', text: "PETER OS 3.0 Core ដំណើរការយ៉ាងរលូនល្អ!"});
-        localStorage.setItem('peter_ai_chats', JSON.stringify(chatMessages));
-        openApp('PeterAI');
-      }, 700);
-      localStorage.setItem('peter_ai_chats', JSON.stringify(chatMessages));
-      openApp('PeterAI');
-    }
-  }
-
-  function openApp(appName) {
-    document.getElementById('lockScreen').classList.add('unlocked');
-    if(appName === 'Home') { document.getElementById('appModal').classList.remove('open'); return; }
-
-    const titleEl = document.getElementById('modalTitle');
-    const contentEl = document.getElementById('modalContent');
-    
-    if (appName === 'PeterAI') {
-      titleEl.textContent = 'Peter AI Core 🤖';
-      let chatHtml = chatMessages.map(m => `<div class="ai-msg ${m.sender}">${m.text}</div>`).join('');
-      contentEl.innerHTML = `<div style="display:flex; flex-direction:column; height:100%;"><div class="ai-chat-box" id="aiChatBox">${chatHtml}</div><div class="ai-input-row"><input type="text" class="ai-input" id="aiInputBox" placeholder="សួរសំណួរទៅកាន់ Peter AI Core..."><button class="ai-send-btn" onclick="sendAIMessage()">ផ្ញើ</button></div></div>`;
-    } else if (appName === 'XLfy') {
-      titleEl.textContent = 'XLfy Music Streamer 🎧';
-      contentEl.innerHTML = `<div style="text-align:center; padding:20px;"><div style="font-size:50px;">🎵</div><h3>PETER OS 3.0 Core Sound Engine</h3><p style="margin-top:10px; color:var(--muted);">កំពុងចាក់ចម្រៀងយ៉ាងពីរោះ...</p></div>`;
-    } else if (appName === 'Notes') {
-      titleEl.textContent = 'System Notes 📝';
-      let notesHtml = notesList.map(n => `<div class="note-item">📌 ${n}</div>`).join('');
-      contentEl.innerHTML = `<div><textarea class="note-textarea" id="noteInput" placeholder="សរសេរកំណត់ត្រា..."></textarea><button class="save-note-btn" onclick="saveNewNote()">រក្សាទុក</button><div class="saved-notes-list">${notesHtml}</div></div>`;
-    } else if (appName === 'Settings') {
-      const isUpToDate = activeKernelVersion === TARGET_SYSTEM_CORE;
-      const updateButtonHtml = isUpToDate ? 
-        '<span style="color:#10B981; font-weight:700;">✓ PETER OS 3.0 Up to date</span>' : 
-        `<button class="update-btn" onclick="triggerRealSystemUpdate()">អាប់ដេតទៅ PETER OS 3.0</button>`;
-      
-      titleEl.textContent = 'ការកំណត់ប្រព័ន្ធ (System Settings)';
-      contentEl.innerHTML = `
-        <div>
-          <div class="settings-group">
-            <div class="settings-row">
-              <span>បច្ចុប្បន្នភាពប្រព័ន្ធ (System Kernel)</span>
-              ${updateButtonHtml}
-            </div>
-          </div>
-          <div class="settings-group">
-            <div class="settings-row">
-              <span>ជំនាន់បច្ចុប្បន្ន</span>
-              <span style="color:var(--peter-purple); font-weight:700;">${activeKernelVersion}</span>
-            </div>
-          </div>
-        </div>
-      `;
-    } else {
-      titleEl.textContent = appName;
-      contentEl.innerHTML = `<div style="padding:14px;"><p>កម្មវិធី ${appName} កំពុងដំណើរការលើ PETER OS 3.0 System Core។</p></div>`;
-    }
-    
-    document.getElementById('appModal').classList.add('open');
-  }
-
-  window.addEventListener('DOMContentLoaded', () => {
-    bootSystemKernel();
-  });
-</script>
-</body>
-</html>
+    if (activeKernelVersion === SYSTEM_LATEST_BUILD) {
+      document.getElementById('widgetTitle').textContent = "
